@@ -59,6 +59,13 @@ class RouteTest < Minitest::Test
       Rack::Route.new('GET', "/", app))
   end
 
+  def test_no_format
+    r = route('GET', "/:id", :format => false)
+
+    assert_equal({ :id => "a" },   r.match('GET', "/a"))
+    assert_equal({ :id => "a.b" }, r.match('GET', "/a.b"))
+  end
+
   private
   def route(request_method, path, options={})
     Rack::Route.new(request_method, path, lambda{|env| [200, {}, [""]] }, options)
