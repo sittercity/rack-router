@@ -25,6 +25,8 @@ class RouteTest < Minitest::Test
     match "/posts/:id" , "/posts/42"     , { :id => "42" }
     match "/posts/:id" , "/posts"        , nil
     match "/:x/:y"     , "/a/b"          , { :x => "a" , :y => "b" }
+    match "/:x/:y"     , "/a/b.c"        , { :x => "a" , :y => "b" , :format => "c" }
+    match "/:x/:y"     , "/a.b/c"        , { :x => "a.b" , :y => "c" }
     match "/posts"     , "/posts.json"   , { :format => "json" }
     match "/posts/:id" , "/posts/42.json", { :id => "42", :format => "json" }
     match "/api/v:version"        , "/api/v2", :version => "2"
