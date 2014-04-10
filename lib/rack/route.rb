@@ -39,7 +39,7 @@ module Rack
         pattern.gsub(WILDCARD_PATTERN,'(?:/(.*)|)')
       else
         p = if pattern_match = pattern.match(NAMED_SEGMENTS_PATTERN)
-          pattern.gsub(NAMED_SEGMENTS_REPLACEMENT_PATTERN, '/(?<\1>[^.$/]+)')
+          pattern.gsub(NAMED_SEGMENTS_REPLACEMENT_PATTERN, '/(?<\1>[^$/]+?)')
         else
           pattern
         end
