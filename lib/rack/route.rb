@@ -22,6 +22,7 @@ module Rack
       @pattern = pattern
       @app = app
       @constraints = options && options[:constraints]
+      @format = options && (options[:format].nil? || options[:format])
       @name = options && options[:as]
     end
 
@@ -43,7 +44,9 @@ module Rack
         else
           pattern
         end
-        p + '(?:\.(?<format>.*))?'
+
+        p += '(?:\.(?<format>.*))?' if @format
+        p
       end
       Regexp.new("\\A#{src}\\Z")
     end
