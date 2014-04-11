@@ -22,6 +22,7 @@ module Rack
       @pattern = pattern
       @app = app
       @constraints = options && options[:constraints]
+      @format = options && (options[:format].nil? || options[:format])
       @name = options && options[:as]
     end
 
@@ -39,11 +40,13 @@ module Rack
         pattern.gsub(WILDCARD_PATTERN,'(?:/(.*)|)')
       else
         p = if pattern_match = pattern.match(NAMED_SEGMENTS_PATTERN)
-          pattern.gsub(NAMED_SEGMENTS_REPLACEMENT_PATTERN, '/(?<\1>[^.$/]+)')
+          pattern.gsub(NAMED_SEGMENTS_REPLACEMENT_PATTERN, '/(?<\1>[^$/]+?)')
         else
           pattern
         end
-        p + '(?:\.(?<format>.*))?'
+
+        p += '(?:\.(?<format>.*))?' if @format
+        p
       end
       Regexp.new("\\A#{src}\\Z")
     end
